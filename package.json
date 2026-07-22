@@ -1,12 +1,13 @@
 {
   "name": "@numtema/prompt-optimizer-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Zero-dependency MCP server that turns rough prompts into structured, explicit prompts.",
   "type": "module",
   "main": "src/index.js",
   "exports": {
     ".": "./src/index.js",
-    "./optimizer": "./src/optimizer.js",
+    "./optimizer": "./src/optimizer-v2.js",
+    "./optimizer-base": "./src/optimizer.js",
     "./mcp": "./src/mcp.js"
   },
   "files": [
@@ -20,7 +21,7 @@
     "dev": "node --watch src/index.js",
     "start": "node src/index.js",
     "test": "node --test",
-    "check": "node --check src/index.js && node --check src/mcp.js && node --check src/optimizer.js"
+    "check": "node --check src/index.js && node --check src/mcp.js && node --check src/optimizer.js && node --check src/optimizer-v2.js"
   },
   "engines": {
     "node": ">=20"
