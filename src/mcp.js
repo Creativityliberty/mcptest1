@@ -1,7 +1,7 @@
-import { optimizePrompt } from './optimizer.js';
+import { optimizePrompt } from './optimizer-v2.js';
 
 export const SERVER_NAME = 'numtema-prompt-optimizer-mcp';
-export const SERVER_VERSION = '0.1.0';
+export const SERVER_VERSION = '0.2.0';
 export const LATEST_PROTOCOL_VERSION = '2025-11-25';
 export const SUPPORTED_PROTOCOL_VERSIONS = Object.freeze([
   '2025-11-25',
@@ -20,7 +20,7 @@ export const OPTIMIZE_PROMPT_TOOL = Object.freeze({
   description:
     'Transform a rough prompt into a clearer, structured, directly reusable prompt. ' +
     'Use this when the user asks to improve, rewrite, structure, clarify, strengthen, or professionalize a prompt. ' +
-    'The tool preserves the original intent, identifies missing information, exposes assumptions, and returns before/after quality scores. ' +
+    'The tool preserves the original intent, detects the task type, applies an adaptive template, identifies missing information, exposes assumptions, and returns clarification questions plus before/after quality scores. ' +
     'It does not execute the optimized prompt and does not store user content.',
   inputSchema: {
     $schema: 'http://json-schema.org/draft-07/schema#',
@@ -76,7 +76,12 @@ export const OPTIMIZE_PROMPT_TOOL = Object.freeze({
     properties: {
       optimized_prompt: { type: 'string' },
       improvements: stringArraySchema,
+      detected_task_type: {
+        type: 'string',
+        enum: ['coding', 'website', 'marketing', 'writing', 'research', 'image_generation', 'video_generation', 'business', 'general']
+      },
       missing_information: stringArraySchema,
+      clarifying_questions: stringArraySchema,
       assumptions: stringArraySchema,
       score_before: { type: 'integer', minimum: 0, maximum: 100 },
       score_after: { type: 'integer', minimum: 0, maximum: 100 },
@@ -86,8 +91,10 @@ export const OPTIMIZE_PROMPT_TOOL = Object.freeze({
     },
     required: [
       'optimized_prompt',
+      'detected_task_type',
       'improvements',
       'missing_information',
+      'clarifying_questions',
       'assumptions',
       'score_before',
       'score_after',
