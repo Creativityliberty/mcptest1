@@ -1,6 +1,6 @@
 {
   "name": "@numtema/prompt-optimizer-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Zero-dependency MCP server that turns rough prompts into structured, explicit prompts.",
   "type": "module",
   "main": "src/index.js",
