@@ -42,6 +42,7 @@ test('tools/call returns structured content and serialized text content', () => 
 
   assert.equal(response.result.isError, false);
   assert.equal(response.result.structuredContent.mode, 'balanced');
+  assert.equal(response.result.structuredContent.detected_task_type, 'website');
   assert.deepEqual(JSON.parse(response.result.content[0].text), response.result.structuredContent);
 });
 
@@ -61,4 +62,22 @@ test('unknown methods return JSON-RPC method not found', () => {
   const response = handleMcpMessage({ jsonrpc: '2.0', id: 5, method: 'unknown/method' });
 
   assert.equal(response.error.code, -32601);
+});
+
+test('tool schema exposes adaptive v0.2 output fields', () => {
+  const output = OPTIMIZE_PROMPT_TOOL.outputSchema;
+  assert.deepEqual(output.properties.detected_task_type.enum, [
+    'coding',
+    'website',
+    'marketing',
+    'writing',
+    'research',
+    'image_generation',
+    'video_generation',
+    'business',
+    'general'
+  ]);
+  assert.equal(output.properties.clarifying_questions.type, 'array');
+  assert.ok(output.required.includes('detected_task_type'));
+  assert.ok(output.required.includes('clarifying_questions'));
 });
