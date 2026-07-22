@@ -1,0 +1,36 @@
+{
+  "name": "@numtema/prompt-optimizer-mcp",
+  "version": "0.1.0",
+  "description": "Zero-dependency MCP server that turns rough prompts into structured, explicit prompts.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./optimizer": "./src/optimizer.js",
+    "./mcp": "./src/mcp.js"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE",
+    ".env.example",
+    "Dockerfile"
+  ],
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "test": "node --test",
+    "check": "node --check src/index.js && node --check src/mcp.js && node --check src/optimizer.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "chatgpt",
+    "prompt-engineering",
+    "prompt-optimizer"
+  ]
+}
